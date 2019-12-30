@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Libraries\Mx.EntityFramework.Contracts\Mx.EntityFramework.Contracts.csproj" />
+    <ProjectReference Include="..\Libraries\Mx.Library\Mx.Library.csproj" />
+  </ItemGroup>
+
+</Project>
