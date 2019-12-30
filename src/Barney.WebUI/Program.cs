@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+
 
 namespace Barney.WebUI
 {
@@ -20,7 +16,14 @@ namespace Barney.WebUI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>()
+                        .ConfigureAppConfiguration((hostingEnvironment, builder) =>
+                        {
+                            builder.SetBasePath(hostingEnvironment.HostingEnvironment.ContentRootPath)
+                                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                                .AddJsonFile("appsettings.secrets.json", optional: true, reloadOnChange: true)
+                                .AddEnvironmentVariables();
+                        });
                 });
     }
 }
