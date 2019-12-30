@@ -8,6 +8,15 @@ namespace Barney.Domain.Models
     {
         private Income() { }
 
+        public Income(NewIncome newIncome)
+        {
+            IncomeClassificationId = newIncome.IncomeClassificationId;
+            EmployerId = newIncome.EmployerId;
+            BeforeDeductions = newIncome.BeforeDeductions;
+            AfterDeductions = newIncome.AfterDeductions;
+            TransactionDate = newIncome.TransactionDate;
+            ExpenseOwnerId = newIncome.ExpenseOwnerId;
+        }
         public Income(int incomeId, short classificationId, short employerId, decimal beforeDeductions,
             decimal afterDeductions,DateTimeOffset transactionDate, short expenseOwnerId)
         {

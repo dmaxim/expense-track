@@ -4,4 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Barney.Business\Barney.Business.csproj" />
+    <ProjectReference Include="..\Barney.Data\Barney.Data.csproj" />
+    <ProjectReference Include="..\Barney.Domain\Barney.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Barney.Domain\Barney.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
