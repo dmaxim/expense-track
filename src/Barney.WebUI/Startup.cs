@@ -1,14 +1,20 @@
+using System.Net;
+using System.Security;
+using System.Security.Cryptography.X509Certificates;
 using Autofac;
 using Barney.Infrastructure.Configuration;
 using Barney.Infrastructure.DependencyInjection;
+using Barney.WebUI.Infrastructure;
 using Barney.WebUI.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Azure.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -38,6 +44,7 @@ namespace Barney.WebUI
                 config.Filters.Add(new AuthorizeFilter(authorizationPolicy));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
+            AddDataProtection(services);
             ConfigureAuthentication(services);
 
         }
@@ -89,5 +96,37 @@ namespace Barney.WebUI
                 )
                 .AddCookie();
         }
+
+
+        private void AddDataProtection(IServiceCollection services)
+        {
+            var azureStorageConnectionString = Configuration["AzureStorage:ConnectionString"];
+
+            
+            var cloudStorage = CloudStorageAccount.Parse(azureStorageConnectionString);
+
+
+            services.AddDataProtection()
+                .PersistKeysToAzureBlobStorage(cloudStorage, Configuration["DataProtection:KeyStorage"])
+                .ProtectKeysWithCertificate(LoadCertificate());
+
+
+
+        }
+
+        private X509Certificate2 LoadCertificate()
+        {
+            var certificatePath = Configuration["DapiCertificatePath"];
+            var certificatePassword = GetCertificatePassword();
+            return CertificateStore.GetCertificate(certificatePath, certificatePassword);
+        }
+
+        private SecureString GetCertificatePassword()
+        {
+            var credential = new NetworkCredential("", Configuration["DapiProtectionCertificateKey"]);
+
+            return credential.SecurePassword;
+        }
+
     }
 }
