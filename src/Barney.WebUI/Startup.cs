@@ -1,13 +1,18 @@
-using System;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Barney.Infrastructure.Configuration;
 using Barney.Infrastructure.DependencyInjection;
+using Barney.WebUI.Infrastructure.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using CookieAuthenticationDefaults = Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults;
 
 namespace Barney.WebUI
 {
@@ -24,15 +29,17 @@ namespace Barney.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(config =>
+            {
+                var authorizationPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
 
-            //var containerBuilder = DependencyBuilderFactory.Create(
-            //    new BarneyWebUIConfiguration(Configuration["UiConfiguration:DatabaseConnectionString"]
-            //    ));
+                config.Filters.Add(new AuthorizeFilter(authorizationPolicy));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            //containerBuilder.Populate(services);
+            ConfigureAuthentication(services);
 
-         
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -55,6 +62,8 @@ namespace Barney.WebUI
             
             app.UseStaticFiles();
 
+            app.UseAuthentication();
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -65,6 +74,20 @@ namespace Barney.WebUI
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+
+        private void ConfigureAuthentication(IServiceCollection services)
+        {
+            services.AddAuthentication(sharedOptions =>
+                {
+                    sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                })
+                .AddAzureAd(
+                    options => Configuration.Bind("AzureAd", options)
+                )
+                .AddCookie();
         }
     }
 }

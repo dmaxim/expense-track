@@ -16,6 +16,7 @@ namespace Barney.WebUI.Infrastructure
 
             if (request.HttpContext.User?.Identity != null && !string.IsNullOrWhiteSpace(request.HttpContext.User.Identity.Name))
             {
+                var test = request.HttpContext.User.Claims;
                 return request.HttpContext.User.Identity.Name;
             }
 

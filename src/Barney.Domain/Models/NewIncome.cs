@@ -29,6 +29,6 @@ namespace Barney.Domain.Models
 
         public string ExpenseOwnerUserId { get; }
 
-        public short ExpenseOwnerId { get; private set; }
+        
     }
 }

@@ -4,6 +4,7 @@ using Barney.Business.Managers.Interfaces;
 using Barney.Domain.Models;
 using Barney.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Mx.Library.ExceptionHandling;
 
 namespace Barney.Business.Managers
 {
@@ -12,13 +13,16 @@ namespace Barney.Business.Managers
         private readonly IIncomeRepository _incomeRepository;
         private readonly IEmployerRepository _employerRepository;
         private readonly IIncomeClassificationRepository _incomeClassificationRepository;
+        private readonly IExpenseOwnerRepository _expenseOwnerRepository;
 
 
-        public IncomeManager(IIncomeRepository incomeRepository, IEmployerRepository employerRepository, IIncomeClassificationRepository incomeClassificationRepository)
+        public IncomeManager(IIncomeRepository incomeRepository, IEmployerRepository employerRepository, IIncomeClassificationRepository incomeClassificationRepository, 
+            IExpenseOwnerRepository expenseOwnerRepository)
         {
             _incomeRepository = incomeRepository;
             _employerRepository = employerRepository;
             _incomeClassificationRepository = incomeClassificationRepository;
+            _expenseOwnerRepository = expenseOwnerRepository;
         }
         public Task<ICollection<Income>> GetAllAsync()
         {
@@ -27,7 +31,16 @@ namespace Barney.Business.Managers
 
         public async Task<Income> InsertAsync(NewIncome newIncome)
         {
-            var income = new Income(newIncome);
+
+            var expenseOwner = await _expenseOwnerRepository.GetAll()
+                .FirstOrDefaultAsync(owner => owner.OwnerUserId == newIncome.ExpenseOwnerUserId).ConfigureAwait(false);
+
+            if (expenseOwner == null)
+            {
+                throw new MxNotFoundException($"Expense Owner with id {newIncome.ExpenseOwnerUserId} does not exist");
+            }
+
+            var income = new Income(newIncome, expenseOwner.ExpenseOwnerId);
             
             _incomeRepository.Insert(income);
             await _incomeRepository.SaveChangesAsync().ConfigureAwait(false);
