@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Barney.Business.Managers.Interfaces;
 using Barney.Domain.Models;
@@ -28,6 +29,16 @@ namespace Barney.Business.Managers
         {
             throw new System.NotImplementedException();
         }
+
+
+        public async Task<ICollection<Income>> GetIndividualIncomeAsync(string ownerUserId)
+        {
+            return await _incomeRepository.GetAll()
+                .Where(income => income.Owner.OwnerUserId == ownerUserId)
+                .Include(income => income.Employer)
+                .Include(income => income.Classification).ToListAsync().ConfigureAwait(false);
+        }
+
 
         public async Task<Income> InsertAsync(NewIncome newIncome)
         {

@@ -48,5 +48,11 @@ namespace Barney.Domain.Models
         public DateTimeOffset TransactionDate { get; private set; }
 
         public short ExpenseOwnerId { get; private set; }
+
+        public ExpenseOwner Owner { get; private set; }
+
+        public IncomeClassification Classification { get; private set; }
+
+        public Employer Employer { get; private set; }
     }
 }

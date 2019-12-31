@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using Barney.Business.Managers.Interfaces;
 using Barney.Domain.Models;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Barney.WebUI.Controllers
 {
-    [Route("income")]
     public class TrackedIncomeController : Controller
     {
         private readonly IIncomeManager _incomeManager;
@@ -19,9 +17,12 @@ namespace Barney.WebUI.Controllers
             _incomeManager = incomeManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+
+            var individualIncome = await _incomeManager.GetIndividualIncomeAsync(HttpContext.Request.CurrentUserName()).ConfigureAwait(false);
+
+            return View(new IndividualIncomeViewModel(individualIncome));
         }
 
 

@@ -9,6 +9,8 @@ namespace Barney.Business.Managers.Interfaces
     {
         Task<ICollection<Income>> GetAllAsync();
 
+        Task<ICollection<Income>> GetIndividualIncomeAsync(string ownerUserId);
+
         Task<Income> InsertAsync(NewIncome newIncome);
 
 

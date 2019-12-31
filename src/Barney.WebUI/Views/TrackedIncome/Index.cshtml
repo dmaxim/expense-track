@@ -1,8 +1,20 @@
-﻿
+﻿@model IndividualIncomeViewModel
 @{
     ViewData["Title"] = "Income";
 }
 
+
+    <div class="card">
+        <div class="card-body">Totals</div>
+        <div class="form-group">
+            <label asp-for="TotalIncomeBeforeDeductions"></label>
+            @Html.DisplayFor(model => model.TotalIncomeBeforeDeductions)
+        </div>
+        <div class="form-group">
+            <label asp-for="TotalIncomeAfterDeductions"></label>
+            @Html.DisplayFor(model => model.TotalIncomeAfterDeductions)
+        </div>
+    </div>
 
 <div class="card">
     <div class="card-body">
@@ -14,19 +26,15 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Date</th>
                     <th>Before Deductions</th>
                     <th>After Deductions</th>
+                    <th>Employer</th>
+                    <th>Classification</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                    @Html.DisplayFor(model => model.IndividualIncome)
                 </tbody>
             </table>
         </div>
