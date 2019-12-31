@@ -11,6 +11,8 @@ namespace Barney.Infrastructure.Configuration
             {
                 throw new ArgumentNullException(nameof(databaseConnectionString));
             }
+
+            DatabaseConnectionString = databaseConnectionString;
         }
 
 

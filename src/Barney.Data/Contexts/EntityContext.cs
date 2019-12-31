@@ -56,10 +56,12 @@ namespace Barney.Data.Contexts
 
             modelBuilder.Entity<Employer>()
                 .ToTable("Employer", DefaultSchema)
+                .HasKey(employer => employer.EmployerId);
+
+            modelBuilder.Entity<Employer>()
                 .Property(properties => properties.Name)
                 .HasColumnName("EmployerName")
                 .IsUnicode(false);
-
             modelBuilder.Entity<Employer>()
                 .Property(properties => properties.Description)
                 .HasColumnName("EmployerDescription")
@@ -67,18 +69,27 @@ namespace Barney.Data.Contexts
 
             modelBuilder.Entity<Expense>()
                 .ToTable("Expense", DefaultSchema)
+                .HasKey(expense => expense.ExpenseId);
+
+            modelBuilder.Entity<Expense>()
                 .Property(properties => properties.Description)
                 .HasColumnName("ExpenseDescription")
                 .IsUnicode(false);
 
             modelBuilder.Entity<ExpenseClassification>()
                 .ToTable("ExpenseClassification", DefaultSchema)
+                .HasKey(expenseClassification => expenseClassification.ExpenseClassificationId);
+
+            modelBuilder.Entity<ExpenseClassification>()
                 .Property(properties => properties.Name)
                 .HasColumnName("ClassificationName")
                 .IsUnicode(false);
 
             modelBuilder.Entity<ExpenseOwner>()
                 .ToTable("ExpenseOwner", DefaultSchema)
+                .HasKey(expenseOwner => expenseOwner.ExpenseOwnerId);
+
+            modelBuilder.Entity<ExpenseOwner>()
                 .Property(properties => properties.OwnerUserId)
                 .IsUnicode(false);
 
@@ -91,15 +102,21 @@ namespace Barney.Data.Contexts
                 .IsUnicode(false);
 
             modelBuilder.Entity<Income>()
-                .ToTable("Income", DefaultSchema);
+                .ToTable("Income", DefaultSchema)
+                .HasKey(income => income.IncomeId);
 
             modelBuilder.Entity<IncomeClassification>()
                 .ToTable("IncomeClassification", DefaultSchema)
+                .HasKey(incomeClassification => incomeClassification.IncomeClassificationId);
+
+            modelBuilder.Entity<IncomeClassification>()
                 .Property(properties => properties.Name)
+                .HasColumnName("ClassificationName")
                 .IsUnicode(false);
 
             modelBuilder.Entity<IncomeClassification>()
                 .Property(properties => properties.Description)
+                .HasColumnName("ClassificationDescription")
                 .IsUnicode(false);
         }
     }

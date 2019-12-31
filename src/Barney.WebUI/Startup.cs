@@ -1,4 +1,5 @@
 using System;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Barney.Infrastructure.Configuration;
 using Barney.Infrastructure.DependencyInjection;
@@ -25,13 +26,18 @@ namespace Barney.WebUI
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
 
-            var containerBuilder = DependencyBuilderFactory.Create(
-                new BarneyWebUIConfiguration(Configuration["UiConfiguration:DatabaseConnectionString"]
-                ));
+            //var containerBuilder = DependencyBuilderFactory.Create(
+            //    new BarneyWebUIConfiguration(Configuration["UiConfiguration:DatabaseConnectionString"]
+            //    ));
 
-            containerBuilder.Populate(services);
+            //containerBuilder.Populate(services);
 
-           // containerBuilder.Build();
+         
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new CoreModule(new BarneyWebUIConfiguration(Configuration["UiConfiguration:DatabaseConnectionString"])));
         }
 
         

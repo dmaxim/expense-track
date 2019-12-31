@@ -17,6 +17,10 @@
     <ProjectReference Include="..\Barney.Infrastructure\Barney.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Shared\DisplayTemplates\" />
+  </ItemGroup>
+
 
 
 </Project>

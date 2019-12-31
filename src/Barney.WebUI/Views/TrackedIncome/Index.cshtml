@@ -3,6 +3,33 @@
     ViewData["Title"] = "Income";
 }
 
-<h1>Income</h1>
 
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Income</h3>
+        <div>
+            <a asp-action="Create" asp-controller="TrackedIncome" class="btn btn-primary btn-sm">Add Income</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>Before Deductions</th>
+                    <th>After Deductions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 

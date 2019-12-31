@@ -1,18 +1,23 @@
 ﻿
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Barney.Domain.Models;
 
 namespace Barney.Business.Managers.Interfaces
 {
     public interface IIncomeManager
     {
-        ICollection<Income> GetAll();
+        Task<ICollection<Income>> GetAllAsync();
 
-        Income Insert(NewIncome newIncome);
+        Task<Income> InsertAsync(NewIncome newIncome);
 
 
-        Income Get(int incomeId);
+        Task<Income> GetAsync(int incomeId);
 
         void Update(Income income);
+
+        Task<IList<Employer>> GetEmployersAsync();
+
+        Task<IList<IncomeClassification>> GetIncomeClassificationsAsync();
     }
 }
