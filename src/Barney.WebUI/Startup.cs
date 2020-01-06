@@ -1,12 +1,13 @@
+using System;
 using System.Net;
 using System.Security;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using Autofac;
 using Barney.Infrastructure.Configuration;
 using Barney.Infrastructure.DependencyInjection;
 using Barney.WebUI.Infrastructure;
 using Barney.WebUI.Infrastructure.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -14,16 +15,21 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using CookieAuthenticationDefaults = Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults;
 
 namespace Barney.WebUI
 {
     public class Startup
     {
+        private static string _keyVaultClientId;
+        private static string _keyVaultKey;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -105,11 +111,12 @@ namespace Barney.WebUI
             
             var cloudStorage = CloudStorageAccount.Parse(azureStorageConnectionString);
 
+            _keyVaultClientId = Configuration["DataProtection:KeyVault:ClientId"];
+            _keyVaultKey = Configuration["DataProtection:KeyVault:Secret"];
 
             services.AddDataProtection()
                 .PersistKeysToAzureBlobStorage(cloudStorage, Configuration["DataProtection:KeyStorage"])
-                .ProtectKeysWithCertificate(LoadCertificate());
-
+                .ProtectKeysWithAzureKeyVault(new KeyVaultClient(GetToken), Configuration["DataProtection:KeyVault:KeyIdentifier"]);
 
 
         }
@@ -126,6 +133,21 @@ namespace Barney.WebUI
             var credential = new NetworkCredential("", Configuration["DapiProtectionCertificateKey"]);
 
             return credential.SecurePassword;
+        }
+
+        public static async Task<string> GetToken(string authority, string resource, string scope)
+        {
+
+            var authContext = new AuthenticationContext(authority);
+
+            var credential = new ClientCredential(_keyVaultClientId, _keyVaultKey);
+            var result = await authContext.AcquireTokenAsync(resource, credential).ConfigureAwait(continueOnCapturedContext: false);
+
+            if (result == null)
+            {
+                throw new InvalidOperationException("Failed to obtain a token");
+            }
+            return result.AccessToken;
         }
 
     }
