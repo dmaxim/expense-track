@@ -106,13 +106,13 @@ namespace Barney.WebUI
 
         private void AddDataProtection(IServiceCollection services)
         {
-            var azureStorageConnectionString = Configuration["AzureStorage:ConnectionString"];
-
             
-            var cloudStorage = CloudStorageAccount.Parse(azureStorageConnectionString);
-
             _keyVaultClientId = Configuration["DataProtection:KeyVault:ClientId"];
             _keyVaultKey = Configuration["DataProtection:KeyVault:Secret"];
+            
+            var azureStorageConnectionString = Configuration["AzureStorage:ConnectionString"];
+           
+            var cloudStorage = CloudStorageAccount.Parse(azureStorageConnectionString);
 
             services.AddDataProtection()
                 .PersistKeysToAzureBlobStorage(cloudStorage, Configuration["DataProtection:KeyStorage"])
