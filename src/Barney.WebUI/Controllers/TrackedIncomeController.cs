@@ -43,7 +43,7 @@ namespace Barney.WebUI.Controllers
             {
                 var newIncome = new NewIncome(newIncomeViewModel.IncomeClassificationId, newIncomeViewModel.EmployerId,
                     newIncomeViewModel.BeforeDeductions,
-                    newIncomeViewModel.AfterDeductions, DateTimeOffset.Now, HttpContext.Request.CurrentUserName());
+                    newIncomeViewModel.AfterDeductions, newIncomeViewModel.TransactionDate, HttpContext.Request.CurrentUserName());
 
                 await _incomeManager.InsertAsync(newIncome).ConfigureAwait(false);
                 return RedirectToAction("Index");

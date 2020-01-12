@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Barney.Domain.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -25,6 +26,7 @@ namespace Barney.WebUI.Models
 
         public decimal AfterDeductions { get; set;  }
 
+        public DateTimeOffset TransactionDate { get; set; }
 
 
         public IEnumerable<SelectListItem> IncomeClassifications

@@ -24,7 +24,7 @@ spec:
     spec:
       serviceAccountName: barney-web
       containers:
-      - image: dmaxim/barney:v1
+      - image: dmaxim/barney:v2
         imagePullPolicy: IfNotPresent
         name: barney-web
         ports:
