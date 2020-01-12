@@ -1,0 +1,11 @@
+k delete pod grafana-6c6895c9bd-lq48h  -n  istio-system
+k delete pod istio-citadel-5dc9b96fcf-s4pft -n  istio-system
+k delete pod istio-egressgateway-799c88f484-7jl45 -n  istio-system
+k delete pod istio-galley-6bcbf9844-2g8hb    -n  istio-system
+k delete pod istio-ingressgateway-778c958997-c8r7b  -n  istio-system
+k delete pod istio-pilot-77d8f586d8-lb2g6 -n  istio-system
+k delete pod istio-policy-6676fb479c-2t8rr -n  istio-system
+k delete pod istio-sidecar-injector-6d6575558-6kbz6 -n  istio-system
+k delete pod istio-telemetry-677f544f94-ggrjj     -n  istio-system
+k delete pod kiali-6b94b5659b-k25j8      -n  istio-system
+k delete pod prometheus-6bcbc95fb4-zncjz       -n  istio-syste

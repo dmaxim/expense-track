@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: barney-web-ingress
+  labels:
+    domain: barney
+  annotations:
+    kubernetes.io/ingress.class: kong
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+    - hosts:
+      - barney.danmaxim.net
+      secretName: tls-secret-barney-web
+  rules:
+    - host: barney.danmaxim.net
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName:  barney-svc
+            servicePort:  80

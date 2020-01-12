@@ -1,0 +1,66 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: barney-web
+  name: barney-deployment
+spec:
+  minReadySeconds: 10
+  replicas: 3
+  selector:
+    matchLabels:
+      app: barney-web
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: barney-web
+        aadpodidbinding: barney-web
+    spec:
+      serviceAccountName: barney-web
+      containers:
+      - image: dmaxim/barney:v1
+        imagePullPolicy: IfNotPresent
+        name: barney-web
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          requests: 
+            memory: "300Mi"
+            cpu: "200m"
+          limits:
+            memory: "300Mi"
+            cpu: "200m"
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /app/appsettings.secrets.json
+          name: barney-appsettings
+          subPath: appsettings.secrets.json
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: dmaximhub
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: barney-appsettings
+        flexVolume:
+            driver: "azure/kv"
+            options:
+              usepodidentity: "true"
+              keyvaultname: "mx-aks-vaults-config"
+              keyvaultobjectnames: "barney-app-settings"
+              keyvaultobjecttypes: "secret"
+              keyvaultobjectaliases: "appsettings.secrets.json"
+              keyvaultobjectversions: ""
+              resourcegroup: "rg-aks-vaults"
+              subscriptionid: "bb0c99b7-d44d-413a-b294-564466712637"
+              tenantid: "38ec304a-0fad-408b-b7cd-e04a2e25b885"
