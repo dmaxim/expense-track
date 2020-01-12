@@ -1,0 +1,22 @@
+@model  NewExpenseViewModel
+
+@{
+    ViewData["Title"] = "Add Expense";
+}
+
+<form asp-action="Create" asp-controller="TrackedExpense">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">New Expense</h3>
+            <p>
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </p>
+            <p>
+                @Html.EditorForModel()
+            </p>
+        </div>
+        <div class="card-footer">
+            <input type="submit" value="Save" class="btn btn-primary btn-sm"/>
+        </div>
+    </div>
+</form>

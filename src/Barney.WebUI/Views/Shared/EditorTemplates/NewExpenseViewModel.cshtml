@@ -1,0 +1,17 @@
+@model NewExpenseViewModel
+
+
+<div class="form-group">
+    <label asp-for="ExpenseClassificationId"></label>
+    <select asp-for="ExpenseClassificationId" asp-items="Model.ExpenseClassifications" class="form-control">
+        <option value="">-- Select a classification</option>
+    </select>
+</div>
+<div class="form-group">
+    <label asp-for="IncurredDate"></label>
+    <input type="date" asp-for="IncurredDate" class="form-control"/>
+</div>
+<div class="form-group">
+    <label asp-for="Amount"></label>
+    <input type="text" asp-for="Amount" class="form-control" />
+</div>
