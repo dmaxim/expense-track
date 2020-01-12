@@ -29,19 +29,19 @@ namespace Barney.Domain.Models
             Amount = newExpense.Amount;
         }
         
-        public int ExpenseId { get; }
+        public int ExpenseId { get; private set; }
 
-        public byte ExpenseClassificationId { get; }
+        public byte ExpenseClassificationId { get; private set; }
 
-        public string Description { get; }
+        public string Description { get; private set; }
 
-        public short ExpenseOwnerId { get; }
+        public short ExpenseOwnerId { get; private set; }
 
-        public decimal Amount { get; }
-        public DateTimeOffset IncurredDate { get;  }
+        public decimal Amount { get; private set; }
+        public DateTimeOffset IncurredDate { get; private set; }
         
-        public ExpenseClassification Classification { get; }
+        public ExpenseClassification ExpenseClassification { get; private set; }
         
-        public ExpenseOwner Owner { get; }
+        public ExpenseOwner ExpenseOwner { get; private set; }
     }
 }

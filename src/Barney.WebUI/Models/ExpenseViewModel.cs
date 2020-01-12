@@ -11,7 +11,7 @@ namespace Barney.WebUI.Models
             IncurredDate = expense.IncurredDate;
             Description = expense.Description;
             ExpenseOwnerId = expense.ExpenseOwnerId;
-            Classification = expense.Classification?.Name;
+            Classification = expense.ExpenseClassification?.Name;
             Amount = expense.Amount;
         }
         

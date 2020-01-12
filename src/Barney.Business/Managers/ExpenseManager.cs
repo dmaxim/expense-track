@@ -29,9 +29,10 @@ namespace Barney.Business.Managers
         public async Task<ICollection<Expense>> GetIndividualExpensesAsync(string ownerUserId)
         {
             return await _expenseRepository.GetAll()
-                .Include(expense => expense.Classification)
-                .Where(expense => expense.Owner.OwnerUserId == ownerUserId)
+                .Where(expense => expense.ExpenseOwner.OwnerUserId == ownerUserId)
+                .Include(expense => expense.ExpenseClassification)
                 .ToListAsync().ConfigureAwait(false);
+            
         }
 
         public async Task<Expense> InsertAsync(NewExpense newExpense)
