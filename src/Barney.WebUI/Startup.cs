@@ -1,5 +1,7 @@
 using System;
+using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -20,8 +22,11 @@ using Microsoft.Azure.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using CookieAuthenticationDefaults = Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults;
+using log4net;
+using log4net.Config;
 
 namespace Barney.WebUI
 {
@@ -43,11 +48,11 @@ namespace Barney.WebUI
             services.AddHttpContextAccessor();
             services.AddControllersWithViews(config =>
             {
-                var authorizationPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
+                //var authorizationPolicy = new AuthorizationPolicyBuilder()
+                //    .RequireAuthenticatedUser()
+                //    .Build();
 
-                config.Filters.Add(new AuthorizeFilter(authorizationPolicy));
+                //config.Filters.Add(new AuthorizeFilter(authorizationPolicy));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             AddDataProtection(services);
@@ -61,8 +66,13 @@ namespace Barney.WebUI
         }
 
         
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            XmlConfigurator.Configure(logRepository, new FileInfo("lo4net.config"));
+
+            loggerFactory.AddLog4Net();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -72,6 +82,8 @@ namespace Barney.WebUI
                 app.UseExceptionHandler("/Home/Error");
                 
             }
+
+            
             
             app.UseStaticFiles();
 
@@ -114,9 +126,9 @@ namespace Barney.WebUI
            
             var cloudStorage = CloudStorageAccount.Parse(azureStorageConnectionString);
 
-            services.AddDataProtection()
-                .PersistKeysToAzureBlobStorage(cloudStorage, Configuration["DataProtection:KeyStorage"])
-                .ProtectKeysWithAzureKeyVault(new KeyVaultClient(GetToken), Configuration["DataProtection:KeyVault:KeyIdentifier"]);
+            //services.AddDataProtection()
+            //    .PersistKeysToAzureBlobStorage(cloudStorage, Configuration["DataProtection:KeyStorage"])
+            //    .ProtectKeysWithAzureKeyVault(new KeyVaultClient(GetToken), Configuration["DataProtection:KeyVault:KeyIdentifier"]);
 
 
         }
