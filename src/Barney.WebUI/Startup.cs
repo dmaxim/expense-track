@@ -27,6 +27,7 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using CookieAuthenticationDefaults = Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults;
 using log4net;
 using log4net.Config;
+using Mx.Library.Web.Logging.Middleware;
 
 namespace Barney.WebUI
 {
@@ -34,6 +35,7 @@ namespace Barney.WebUI
     {
         private static string _keyVaultClientId;
         private static string _keyVaultKey;
+        private const string ApplicationName = "Barney";
 
         public Startup(IConfiguration configuration)
         {
@@ -69,18 +71,7 @@ namespace Barney.WebUI
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddLog4Net();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                
-            }
-
-            
+            app.UseCustomExceptionHandler(ApplicationName, "/home/error");
             
             app.UseStaticFiles();
 

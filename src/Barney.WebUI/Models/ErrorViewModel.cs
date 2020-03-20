@@ -1,11 +1,16 @@
-using System;
 
 namespace Barney.WebUI.Models
 {
     public class ErrorViewModel
     {
-        public string RequestId { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public ErrorViewModel(int statusCode, string errorMessage)
+        {
+            StatusCode = statusCode;
+            Message = errorMessage;
+        }
+
+        public int StatusCode { get; }
+        public string Message { get; }
     }
 }

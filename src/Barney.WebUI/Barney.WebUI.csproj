@@ -24,6 +24,9 @@
     <ProjectReference Include="..\Barney.Business\Barney.Business.csproj" />
     <ProjectReference Include="..\Barney.Domain\Barney.Domain.csproj" />
     <ProjectReference Include="..\Barney.Infrastructure\Barney.Infrastructure.csproj" />
+    <ProjectReference Include="..\Libraries\Mx.Library.Web\Mx.Library.Web.csproj" />
+    <ProjectReference Include="..\Libraries\Mx.Library\Mx.Library.csproj" />
+    <ProjectReference Include="..\Libraries\Mx.Logging\Mx.Logging.csproj" />
   </ItemGroup>
 
   <ItemGroup>
