@@ -68,9 +68,6 @@ namespace Barney.WebUI
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-            XmlConfigurator.Configure(logRepository, new FileInfo("lo4net.config"));
-
             loggerFactory.AddLog4Net();
 
             if (env.IsDevelopment())
