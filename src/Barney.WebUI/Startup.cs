@@ -71,12 +71,7 @@ namespace Barney.WebUI
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            //var consoleAppender = LoggingConfiguration.ConfigureConsoleAppender();
-            //var loggingRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-            //LoggingConfiguration.ConfigureRootLogger(loggingRepository);
-            //BasicConfigurator.Configure(loggingRepository, consoleAppender);
-
-            loggerFactory.AddLog4Net();
+            //loggerFactory.AddLog4Net();
             app.UseCustomExceptionHandler(ApplicationName, "/home/error");
             
             app.UseStaticFiles();
