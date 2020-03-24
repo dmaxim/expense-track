@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Diagnostics;
 using Mx.Library.ExceptionHandling;
+using Mx.Logging;
 
 namespace Barney.WebUI.Controllers
 {
@@ -20,7 +21,20 @@ namespace Barney.WebUI.Controllers
 
         public IActionResult Index()
         {
-            _logger.Log(LogLevel.Error, "Navigated to index page after clean up");
+            var logDetail = new LogDetail
+            {
+                Application = "Barney",
+                Location = "Index Page",
+                Hostname = "MyHost",
+                Message = "Navigated to index page"
+                
+            };
+            _logger.LogError(logDetail.Message, logDetail);
+
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("Debugging here", logDetail);
+            }
             return View();
         }
 
