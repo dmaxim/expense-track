@@ -28,6 +28,7 @@ using CookieAuthenticationDefaults = Microsoft.AspNetCore.Authentication.Cookies
 using log4net;
 using log4net.Config;
 using Mx.Library.Web.Logging.Middleware;
+using Mx.Logging.Log4Net;
 
 namespace Barney.WebUI
 {
@@ -70,6 +71,11 @@ namespace Barney.WebUI
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            //var consoleAppender = LoggingConfiguration.ConfigureConsoleAppender();
+            //var loggingRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            //LoggingConfiguration.ConfigureRootLogger(loggingRepository);
+            //BasicConfigurator.Configure(loggingRepository, consoleAppender);
+
             loggerFactory.AddLog4Net();
             app.UseCustomExceptionHandler(ApplicationName, "/home/error");
             
