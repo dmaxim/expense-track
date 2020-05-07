@@ -5,21 +5,26 @@ using Barney.Domain.Models;
 using Barney.WebUI.Infrastructure;
 using Barney.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Barney.WebUI.Controllers
 {
     public class TrackedIncomeController : Controller
     {
         private readonly IIncomeManager _incomeManager;
+        private readonly ILogger<TrackedIncomeController> _logger;
 
-        public TrackedIncomeController(IIncomeManager incomeManager)
+        public TrackedIncomeController(IIncomeManager incomeManager, ILogger<TrackedIncomeController> logger)
         {
             _incomeManager = incomeManager;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
 
+            _logger.LogInformation("This should not be logged");
+            _logger.LogError("This should be logged");
             var individualIncome = await _incomeManager.GetIndividualIncomeAsync(HttpContext.Request.CurrentUserName()).ConfigureAwait(false);
 
             return View(new IndividualIncomeViewModel(individualIncome));
