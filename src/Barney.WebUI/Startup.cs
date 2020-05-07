@@ -51,11 +51,11 @@ namespace Barney.WebUI
             services.AddHttpContextAccessor();
             services.AddControllersWithViews(config =>
             {
-                //var authorizationPolicy = new AuthorizationPolicyBuilder()
-                //    .RequireAuthenticatedUser()
-                //    .Build();
+                var authorizationPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
 
-                //config.Filters.Add(new AuthorizeFilter(authorizationPolicy));
+                config.Filters.Add(new AuthorizeFilter(authorizationPolicy));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             AddDataProtection(services);
@@ -71,7 +71,7 @@ namespace Barney.WebUI
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            //loggerFactory.AddLog4Net();
+            
             app.UseCustomExceptionHandler(ApplicationName, "/home/error");
             
             app.UseStaticFiles();
@@ -81,7 +81,7 @@ namespace Barney.WebUI
             app.UseRouting();
 
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -115,9 +115,9 @@ namespace Barney.WebUI
            
             var cloudStorage = CloudStorageAccount.Parse(azureStorageConnectionString);
 
-            //services.AddDataProtection()
-            //    .PersistKeysToAzureBlobStorage(cloudStorage, Configuration["DataProtection:KeyStorage"])
-            //    .ProtectKeysWithAzureKeyVault(new KeyVaultClient(GetToken), Configuration["DataProtection:KeyVault:KeyIdentifier"]);
+            services.AddDataProtection()
+                .PersistKeysToAzureBlobStorage(cloudStorage, Configuration["DataProtection:KeyStorage"])
+                .ProtectKeysWithAzureKeyVault(new KeyVaultClient(GetToken), Configuration["DataProtection:KeyVault:KeyIdentifier"]);
 
 
         }
