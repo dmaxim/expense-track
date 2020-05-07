@@ -9,6 +9,7 @@ metadata:
     certmanager.k8s.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/rewrite-target: /
     configuration.konghq.com : https-only
+    nginx.ingress.kubernetes.io/service-upstream: "true"
 spec:
   tls:
     - hosts:
