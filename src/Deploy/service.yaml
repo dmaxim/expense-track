@@ -23,6 +23,3 @@ metadata:
   name: barney-web
   labels:
     domain: barney
-
-
-nginx.ingress.kubernetes.io/service-upstream: true

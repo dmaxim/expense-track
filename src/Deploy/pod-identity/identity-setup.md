@@ -15,7 +15,7 @@ id
 
 These values will be used for the client id and resource id in the AzureIdentity definition
 
-clientId: 516c66be-63a2-4f64-add3-8493c096ecff
+clientId: 76a58048-0e94-4d64-adcb-f273f026e975
 id: /subscriptions/bb0c99b7-d44d-413a-b294-564466712637/resourcegroups/rg-mxinfo-kube/providers/Microsoft.ManagedIdentity/userAssignedIdentities/barney-webui
 
 Copy these values into the pod-identity.yaml file
@@ -54,7 +54,7 @@ Principal Id from output of role assignment create
 ### Grant the Azure AD Identity the pod is running under Key Vault Permissions
 
 Principal Id: 1b80a719-a989-40f6-b0b7-8f8c95f1c45d
-Client Id: 516c66be-63a2-4f64-add3-8493c096ecff
+Client Id: 76a58048-0e94-4d64-adcb-f273f026e975
 
 
 Get the Key Vault Id for prod-usaf-config-secrets
@@ -74,14 +74,14 @@ az role assignment create --role Reader --assignee <principal id> --scope <Key V
 ````
 
 ````
-az role assignment create --role Reader --assignee 516c66be-63a2-4f64-add3-8493c096ecff --scope /subscriptions/bb0c99b7-d44d-413a-b294-564466712637/resourceGroups/rg-aks-vaults/providers/Microsoft.KeyVault/vaults/mx-aks-vaults-config
+az role assignment create --role Reader --assignee 76a58048-0e94-4d64-adcb-f273f026e975 --scope /subscriptions/bb0c99b7-d44d-413a-b294-564466712637/resourceGroups/rg-aks-vaults/providers/Microsoft.KeyVault/vaults/mx-aks-vaults-config
 
 ````
 
 ### Create an Access Policy in the Key Vault to give the identity for the pod to read secrets
 
 ````
-az keyvault set-policy -n mx-aks-vaults-config --secret-permissions get --spn 516c66be-63a2-4f64-add3-8493c096ecff
+az keyvault set-policy -n mx-aks-vaults-config --secret-permissions get --spn 76a58048-0e94-4d64-adcb-f273f026e975
 
 ````
 
