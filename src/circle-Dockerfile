@@ -16,13 +16,13 @@ COPY src/Barney.Domain/Barney.Domain.csproj  Barney.Domain/
 COPY src/Barney.Infrastructure/Barney.Infrastructure.csproj Barney.Infrastructure/
 COPY src/Barney.WebUI/Barney.WebUI.csproj Barney.WebUI/
 
-RUN ls
-
-RUN ls Libraries/
-
 RUN dotnet restore Barney.WebUI/Barney.WebUI.csproj
 COPY . .
+
+RUN ls
 WORKDIR /src/Barney.WebUI
+RUN ls
+
 RUN dotnet build Barney.WebUI.csproj -c Release -o /app
 
 FROM build AS publish
