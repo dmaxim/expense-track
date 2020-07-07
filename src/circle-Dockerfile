@@ -16,6 +16,8 @@ COPY src/Barney.WebUI/Barney.WebUI.csproj Barney.WebUI/
 
 RUN ls
 
+RUN ls Libraries/
+
 RUN dotnet restore Barney.WebUI/Barney.WebUI.csproj
 COPY . .
 WORKDIR /src/Barney.WebUI
