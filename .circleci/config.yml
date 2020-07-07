@@ -1,12 +1,9 @@
  version: 2.1
 
- orbs:
-  win: circleci/windows@2.2.0
-
  jobs:
    build:
-     executor: win/default     
+     machine: true     
     
      steps:
        - checkout
-       - run: dotnet build src/Barney.sln
+       - run: docker build -t dmaxim/barney:v3.1 -f src/Dockerfile .
