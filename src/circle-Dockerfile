@@ -14,6 +14,7 @@ COPY src/Barney.Domain/Barney.Domain.csproj  Barney.Domain/
 COPY src/Barney.Infrastructure/Barney.Infrastructure.csproj Barney.Infrastructure/
 COPY src/Barney.WebUI/Barney.WebUI.csproj Barney.WebUI/
 
+RUN ls
 
 RUN dotnet restore Barney.WebUI/Barney.WebUI.csproj
 COPY . .
