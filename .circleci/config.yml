@@ -9,4 +9,4 @@
     
      steps:
        - checkout
-       - run: dotnet build ../Barney.sln
+       - run: dotnet build ../src/Barney.sln
