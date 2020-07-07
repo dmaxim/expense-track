@@ -8,6 +8,8 @@ COPY src/Libraries/Mx.EntityFramework/Mx.EntityFramework.csproj Libraries/Mx.Ent
 COPY src/Libraries/Mx.EntityFramework.Contracts/Mx.EntityFramework.Contracts.csproj Libraries/Mx.EntityFramework.Contracts/
 COPY src/Libraries/Mx.Logging/Mx.Logging.csproj Libraries/Mx.Logging/
 COPY src/Libraries/Mx.Library/Mx.Library.csproj Libraries/Mx.Library/
+COPY src/Libraries/Mx.Library/Mx.Library.Web.csproj Libraries/Mx.Library.Web/
+COPY src/Libraries/Mx.Library/Mx.Logging.Log4Net.csproj Libraries/Mx.Library.Logging/
 COPY src/Barney.Business/Barney.Business.csproj Barney.Business/
 COPY src/Barney.Data/Barney.Data.csproj Barney.Data/
 COPY src/Barney.Domain/Barney.Domain.csproj  Barney.Domain/
