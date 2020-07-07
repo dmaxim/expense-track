@@ -4,10 +4,10 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY src/Libraries/Mx.EntityFramework/Mx.EntityFramework.csproj Mx.EntityFramework/
-COPY src/Libraries/Mx.EntityFramework.Contracts/Mx.EntityFramework.Contracts.csproj Mx.EntityFramework.Contracts/
-COPY src/Libraries/Mx.Logging/Mx.Logging.csproj Mx.Logging/
-COPY src/Libraries/Mx.Library/Mx.Library.csproj Mx.Library/
+COPY src/Libraries/Mx.EntityFramework/Mx.EntityFramework.csproj Libraries/Mx.EntityFramework/
+COPY src/Libraries/Mx.EntityFramework.Contracts/Mx.EntityFramework.Contracts.csproj Libraries/Mx.EntityFramework.Contracts/
+COPY src/Libraries/Mx.Logging/Mx.Logging.csproj Libraries/Mx.Logging/
+COPY src/Libraries/Mx.Library/Mx.Library.csproj Libraries/Mx.Library/
 COPY src/Barney.Business/Barney.Business.csproj Barney.Business/
 COPY src/Barney.Data/Barney.Data.csproj Barney.Data/
 COPY src/Barney.Domain/Barney.Domain.csproj  Barney.Domain/
