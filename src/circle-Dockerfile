@@ -22,7 +22,7 @@ COPY . .
 RUN ls
 RUN ls Barney.WebUI
 WORKDIR /src/Barney.WebUI
-RUN ls /src
+RUN ls /src/src
 
 RUN dotnet build Barney.WebUI.csproj -c Release -o /app
 
