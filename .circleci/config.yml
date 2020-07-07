@@ -6,4 +6,8 @@
     
      steps:
        - checkout
-       - run: docker build -t dmaxim/barney:v3.1 -f src/Dockerfile .
+       - run: echo "$DOCKER_PASS" | docker login --usename $DOCKER_USER --password-stdin
+
+       - run: docker build -t dmaxim/barney:v3.1 -f src/circle-Dockerfile .
+
+       - run: docker push dmaxim/barney:v3.1

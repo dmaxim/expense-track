@@ -1,0 +1,29 @@
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim as base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+WORKDIR /src
+COPY src/Libraries/Mx.EntityFramework/Mx.EntityFramework.csproj Mx.EntityFramework/
+COPY src/Libraries/Mx.EntityFramework.Contracts/Mx.EntityFramework.Contracts.csproj Mx.EntityFramework.Contracts/
+COPY src/Libraries/Mx.Logging/Mx.Logging.csproj Mx.Logging/
+COPY src/Libraries/Mx.Library/Mx.Library.csproj Mx.Library/
+COPY src/Barney.Business/Barney.Business.csproj Barney.Business/
+COPY src/Barney.Data/Barney.Data.csproj Barney.Data/
+COPY src/Barney.Domain/Barney.Domain.csproj  Barney.Domain/
+COPY src/Barney.Infrastructure/Barney.Infrastructure.csproj Barney.Infrastructure/
+COPY src/Barney.WebUI/Barney.WebUI.csproj Barney.WebUI/
+
+
+RUN dotnet restore Barney.WebUI/Barney.WebUI.csproj
+COPY . .
+WORKDIR /src/Barney.WebUI
+RUN dotnet build Barney.WebUI.csproj -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish Barney.WebUI.csproj -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "Barney.WebUI.dll"]
