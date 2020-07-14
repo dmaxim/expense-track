@@ -11,3 +11,9 @@
        - run: docker build -t dmaxim/barney:v3.1 -f src/circle-Dockerfile .
 
        - run: docker push dmaxim/barney:v3.1
+    
+    test:
+      machine: true
+
+      steps:
+      - run: dotnet test Barney.Tests.Unit/Barney.Tests.Unit.csproj
