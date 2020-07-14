@@ -19,6 +19,7 @@ jobs:
     executor: win/default
     
     steps:
+      - checkout
       - run: dotnet test src/Barney.Tests.Unit/Barney.Tests.Unit.csproj
   
   deploy:
