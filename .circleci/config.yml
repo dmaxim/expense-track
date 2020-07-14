@@ -17,4 +17,11 @@ jobs:
     
     steps:
       - run: dotnet test Barney.Tests.Unit/Barney.Tests.Unit.csproj
-    
+
+workflows:
+  version: 2
+  build-and-test:
+    - build
+    - test:
+        requires:
+          - build
