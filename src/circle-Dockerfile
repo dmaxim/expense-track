@@ -19,10 +19,7 @@ COPY src/Barney.WebUI/Barney.WebUI.csproj Barney.WebUI/
 RUN dotnet restore Barney.WebUI/Barney.WebUI.csproj
 COPY . .
 
-RUN ls
-RUN ls Barney.WebUI
 WORKDIR /src/src/Barney.WebUI
-RUN ls
 
 RUN dotnet build Barney.WebUI.csproj -c Release -o /app
 
