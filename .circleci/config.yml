@@ -2,18 +2,18 @@
 
  jobs:
    build:
-     machine: true     
+    machine: true     
     
      steps:
-       - checkout
+      - checkout
        - run: echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
 
        - run: docker build -t dmaxim/barney:v3.1 -f src/circle-Dockerfile .
 
        - run: docker push dmaxim/barney:v3.1
     
-    test:
-      machine: true
+   test:
+    machine: true
 
-      steps:
+     steps:
       - run: dotnet test Barney.Tests.Unit/Barney.Tests.Unit.csproj
