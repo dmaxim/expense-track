@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   win: circleci/windows@2.2.0
-  
+
 jobs:
   buildImage:
     machine: true     
@@ -19,7 +19,7 @@ jobs:
     executor: win/default
     
     steps:
-      - run: dotnet test Barney.Tests.Unit/Barney.Tests.Unit.csproj
+      - run: dotnet test src/Barney.Tests.Unit/Barney.Tests.Unit.csproj
   
   deploy:
     machine: true
